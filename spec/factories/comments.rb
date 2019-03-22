@@ -1,20 +1,20 @@
 # == Schema Information
 #
-# Table name: articles
+# Table name: comments
 #
 #  id         :integer          not null, primary key
-#  title      :text
-#  content    :text
-#  category   :string
+#  message    :text
+#  visible    :boolean          default(FALSE)
+#  article_id :integer
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #  user_id    :integer
 #
 
 FactoryBot.define do
-  factory :article do
-    sequence(:title) { |n| "title_#{n}" }
-    content "This is my content"
+  factory :comment do
+    message "This is a comment on an article"
+    article
     user
   end
 end
