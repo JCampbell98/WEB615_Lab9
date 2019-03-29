@@ -5,20 +5,24 @@ class AddSlugForFriendlyId < ActiveRecord::Migration[5.1]
     add_column :comments, :uuid, :string, unique: true
     add_column :comments, :slug, :string, unique: true
     Article.all.each do |article|
-      string uuid = SecureRandom.uuid
+      uuid = SecureRandom.uuid
       article.uuid = uuid
       article.slug = uuid
       if article.save
         p "#{article.title} successfully saved!"
+      else
+        raise("#{article.errors.full_messages}")
       end
     end
 
     Comment.all.each do |comment|
-      string uuid = SecureRandom.uuid
+      uuid = SecureRandom.uuid
       comment.uuid = uuid
       comment.slug = uuid
       if comment.save
         p "#{comment.message} successfully saved!"
+      else
+        raise("#{comment.errors.full_messages}")
       end
     end
   end
