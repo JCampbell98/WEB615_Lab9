@@ -43,13 +43,25 @@ RSpec.describe "Comments", type: :request do
         expect(page).to have_content(@comment.user.email)
         expect(page).to have_content(@comment.article.title)
       end
+
+      it 'should return a comment via uuid' do
+        @comment = FactoryBot.create(:comment)
+        visit comment_path(@comment.uuid)
+        expect(current_path).to eq(comment_path(@comment.uuid))
+      end
+
+      it 'should return a comment via id' do
+        @comment = FactoryBot.create(:comment)
+        visit comment_path(@comment.id)
+        expect(current_path).to eq(comment_path(@comment.id))
+      end
     end
 
     describe 'invalid: ' do
       it 'should not return a coment if one does not exist' do
         visit comment_path(10000000)
         expect(current_path).to eq(comments_path)
-        expect(page).to have_content("The comment you're looking for cannot be found")
+        expect(page).to have_content("Comment Not Found.")
       end
     end
   end

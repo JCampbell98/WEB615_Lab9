@@ -58,13 +58,25 @@ RSpec.describe "Articles", type: :request do
         expect(page).to have_content(@article.user.email)
         # save_and_open_page
       end
+
+      it 'should return an article via uuid' do
+        @article = FactoryBot.create(:article)
+        visit article_path(@article.uuid)
+        expect(current_path).to eq(article_path(@article.uuid))
+      end
+
+      it 'should return an article via id' do
+        @article = FactoryBot.create(:article)
+        visit article_path(@article.uuid)
+        expect(current_path).to eq(article_path(@article.uuid))
+      end
     end
 
     describe 'invalid: ' do
       it 'should not return an article if one does not exist' do
         visit article_path(99999)
         expect(current_path).to eq(articles_path)
-        expect(page).to have_content("The article you're looking for cannot be found")
+        expect(page).to have_content("Article Not Found.")
         # save_and_open_page
       end
     end

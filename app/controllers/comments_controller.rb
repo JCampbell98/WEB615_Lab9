@@ -79,12 +79,12 @@ class CommentsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_comment
-      @comment = Comment.find(params[:id])
+      @comment = Comment.friendly.find(params[:id])
     rescue ActiveRecord::RecordNotFound
       flash[:alert] = "The comment you're looking for cannot be found"
       respond_to do |format|
-        format.html {redirect_to comments_path}
-        format.json {render json: nil, status: 404}
+        format.html {redirect_to comments_path, alert: 'Comment Not Found.'}
+        format.json {render json: {alert: 'User Not Found.'}, status: 404}
       end
     end
 
